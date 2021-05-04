@@ -20,13 +20,13 @@ func main() {
 		go func(id int) {
 			defer wg.Done()
 
-			fmt.Printf("Start № %v\n", id)
+			fmt.Printf("Start gorutine № %v\n", id)
 
 			mutex.Lock()
 			counter += 1
 			mutex.Unlock()
 
-			fmt.Printf("Stop № %v\n", id)
+			fmt.Printf("Stop gorutine № %v\n", id)
 
 		}(i)
 	}
