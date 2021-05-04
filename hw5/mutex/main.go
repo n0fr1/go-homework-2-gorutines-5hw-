@@ -35,9 +35,12 @@ func main() {
 
 func increment(a *Alldata) {
 
-	defer a.mutex.Unlock()
+	defer func() {
+		a.mutex.Unlock()
+		a.wg.Done()
+	}()
+
 	a.mutex.Lock()
 	a.result += 1
-	a.wg.Done()
 
 }
