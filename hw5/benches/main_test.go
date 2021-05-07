@@ -1,3 +1,8 @@
+//3. Протестируйте производительность операций чтения и записи на множестве
+//действительных чисел, безопасность которого обеспечивается sync.Mutex и
+//sync.RWMutex для разных вариантов использования: 10% запись, 90% чтение; 50%
+//запись, 50% чтение; 90% запись, 10% чтение
+
 package main
 
 import (
@@ -33,7 +38,7 @@ func (s *FloatSet) Add(i float64, mutexR bool) {
 
 }
 
-//(read) - already has in map
+//(read) - already in map
 func (s *FloatSet) Has(i float64, mutexR bool) bool {
 
 	var ok bool
