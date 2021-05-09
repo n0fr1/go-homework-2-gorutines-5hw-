@@ -5,6 +5,8 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"runtime/trace"
 	"sync"
 )
 
@@ -12,6 +14,9 @@ func main() {
 
 	var mutex sync.Mutex
 	wg := sync.WaitGroup{}
+
+	trace.Start(os.Stderr)
+	defer trace.Stop()
 
 	wg.Add(2)
 	go func() {
