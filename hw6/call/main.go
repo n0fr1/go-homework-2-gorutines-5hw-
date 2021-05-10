@@ -7,21 +7,45 @@
 package main
 
 import (
-	"log"
+	"fmt"
 	"os"
 	"runtime"
 	"runtime/trace"
+	"sync"
 )
 
 func main() {
 
+	counter := 0
+
+	const gs = 100
+	var wg sync.WaitGroup
+
 	trace.Start(os.Stderr)
 	defer trace.Stop()
 
-	go log.Println("I'm working!")
-	for i := 0; ; i += 1 {
-		if i%1e6 == 0 {
-			runtime.Gosched() //start sheduler
-		}
+	wg.Add(gs)
+
+	var mu sync.Mutex
+
+	for i := 0; i < gs; i++ {
+		go func() {
+			mu.Lock()
+
+			counter++
+			if counter == 10 {
+				runtime.Gosched()
+			}
+
+			fmt.Println("count:", counter)
+
+			mu.Unlock()
+			wg.Done()
+		}()
 	}
+
+	fmt.Println("test")
+
+	wg.Wait()
+
 }
